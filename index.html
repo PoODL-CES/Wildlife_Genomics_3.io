@@ -100,26 +100,49 @@
 
   <h2>Workshop Pipeline Breakdown</h2>
 
-  <h3>1. Initial Processing of FASTQ Files</h3>
-  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Fastq_file_processing_solutions.sh">Fastq_file_processing_solutions.sh</a></p>
-  <p>This step includes quality checking, adapter trimming, and generating cleaned FASTQ files for mapping.</p>
+   <h3>1. Initial Processing of FASTQ Files</h3>
+    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Fastq_file_processing_solutions.sh">Fastq_file_processing_solutions.sh</a></p>
+    <ul>
+        <li>Check read quality (e.g., <code>fastqc</code>)</li>
+        <li>Trim adapters or poor-quality reads (<code>Trim-galore</code>, <code>trimmomatic</code>)</li>
+        <li>Clean FASTQ files ready for mapping</li>
+    </ul>
 
-  <h3>2. Mapping Reads to Reference Genome</h3>
-  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Read_mapping_and_sorting_solutions.sh">Read_mapping_and_sorting_solutions.sh</a></p>
-  <p>Includes mapping with BWA/Bowtie2, converting SAM to BAM, sorting, and indexing BAM files.</p>
+    <h3>2. Mapping Reads to Reference Genome</h3>
+    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Read_mapping_and_sorting_solutions.sh">Read_mapping_and_sorting_solutions.sh</a></p>
+    <ul>
+        <li>Align with <code>BWA</code> or <code>Bowtie2</code></li>
+        <li>Convert SAM to BAM, sort and index using <code>samtools</code></li>
+    </ul>
 
-  <h3>3. Identifying Variants (SNPs/Indels)</h3>
-  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_identification.sh">Variant_identification.sh</a></p>
-  <p>Variant calling using bcftools/strelka and generating VCF files.</p>
+    <h3>3. Identifying Variants (SNPs/Indels)</h3>
+    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_identification.sh">Variant_identification.sh</a></p>
+    <ul>
+        <li>Call variants using <code>bcftools</code> or <code>strelka</code></li>
+        <li>Generate a VCF file</li>
+        <li>Optionally apply variant filtering</li>
+    </ul>
 
-  <h3>4. Filtering Variants</h3>
-  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering.sh">Variant_filtering.sh</a></p>
-  <p>Solutions: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering_solution.sh">Variant_filtering_solution.sh</a></p>
-  <p>More info: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/variant_filter_description.md">Variant Filter Descriptions</a></p>
+    <h3>4. Filtering Variants</h3>
+    <p>
+        Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering.sh">Variant_filtering.sh</a><br>
+        Solutions: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering_solution.sh">Variant_filtering_solution.sh</a><br>
+        More Info: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/variant_filter_description.md">Variant Filter Descriptions</a>
+    </p>
+    <ul>
+        <li>Apply filters with <code>bcftools</code>, <code>vcftools</code></li>
+        <li>Remove low-confidence variants</li>
+    </ul>
 
-  <h3>5. Population Structure & Visualization</h3>
-  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Basic_population_genetics.sh">Basic_population_genetics.sh</a></p>
-  <p>Includes converting VCF to PLINK formats, performing PCA, and interpreting population-level genetic structure.</p>
+    <h3>5. Population Structure & Visualization</h3>
+    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Basic_population_genetics.sh">Basic_population_genetics.sh</a></p>
+    <ul>
+        <li>Convert VCFs to <code>.bed</code>, <code>.ped</code> using <code>plink</code></li>
+        <li>Perform PCA to explore population structure</li>
+        <li>Visualize and interpret clustering and outliers</li>
+    </ul>
+
+
 
   <footer>
     <p>© 2025 <strong>PoODL_ Genomic Learning Workshop</strong> | All rights reserved.</p>
