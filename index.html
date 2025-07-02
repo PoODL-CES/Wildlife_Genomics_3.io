@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kenya Wildlife Genomics3 Workshop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px auto;
+      max-width: 960px;
+      padding: 0 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Wildlife Genomics 3 Workshop</h1>
+  <p>This hands-on workshop on Next-Generation Sequencing (NGS) Data Analysis is designed to help you analyze Illumina-generated whole-genome resequencing (WGS) data for population genetics. With minor adjustments, the same workflow can be applied to RAD-seq or amplicon-seq if a reference genome is available.</p>
+
+  <h2> Introductory Video</h2>
+  <video controls autoplay muted loop>
+    <source src="Wildlife%20Genomics%20iii.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <h2>Workshop Objectives</h2>
+  <p>By the end of this workshop, you will be able to:</p>
+  <ul>
+    <li>Understand and process raw sequencing data (FASTQ format)</li>
+    <li>Perform quality control and preprocessing</li>
+    <li>Map reads to a reference genome</li>
+    <li>Identify variants (SNPs and indels)</li>
+    <li>Use filtered variants for basic population genetic analysis (PCA, Admixture, heterozygosity)</li>
+  </ul>
+  <p>This workshop is designed to fit in a 3-hour format. Full version available at: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop">PoODL-CES GitHub</a></p>
+
+  <h2>Pre-requisites & Setup</h2>
+  <ul>
+    <li>Access to a Unix/Linux shell environment:
+      <ul>
+        <li>Windows: Install <a href="https://mobaxterm.mobatek.net">MobaXterm</a></li>
+        <li>Mac/Linux: Use native terminal</li>
+      </ul>
+    </li>
+    <li>Basic knowledge of Linux commands: 
+      <a href="https://github.com/PoODL-CES/GIAS2025_NCBS/blob/main/Understand_Linux_Command">Understand_Linux_Command</a>
+    </li>
+    <li>Pre-installed conda environments: 
+      <a href="https://github.com/PoODL-CES/GIAS2025_NCBS/blob/main/Conda_Environments">Conda_Environments</a>
+    </li>
+  </ul>
+
+  <h2>Recommended Resources</h2>
+  <h3>Learn About Illumina Sequencing</h3>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=fCd6B5HRaZ8&t">How Illumina Sequencing Works</a></li>
+  </ul>
+
+  <h3>Linux Shell Basics</h3>
+  <ul>
+    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_basics.sh">Basic Linux Commands Exercise</a></li>
+    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_basics_solutions.sh">Basic Linux Commands Solutions</a></li>
+    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_advanced.sh">Advanced Linux Commands Exercise</a></li>
+    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_advanced_solutions.sh">Advanced Linux Commands Solutions</a></li>
+    <li><a href="https://ryanstutorials.net/linuxtutorial/navigation.php">Linux Tutorial</a></li>
+  </ul>
+
+  <h2>Workshop Pipeline Breakdown</h2>
+
+  <h3>1. Initial Processing of FASTQ Files</h3>
+  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Fastq_file_processing_solutions.sh">Fastq_file_processing_solutions.sh</a></p>
+  <p>This step includes quality checking, adapter trimming, and generating cleaned FASTQ files for mapping.</p>
+
+  <h3>2. Mapping Reads to Reference Genome</h3>
+  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Read_mapping_and_sorting_solutions.sh">Read_mapping_and_sorting_solutions.sh</a></p>
+  <p>Includes mapping with BWA/Bowtie2, converting SAM to BAM, sorting, and indexing BAM files.</p>
+
+  <h3>3. Identifying Variants (SNPs/Indels)</h3>
+  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_identification.sh">Variant_identification.sh</a></p>
+  <p>Variant calling using bcftools/strelka and generating VCF files.</p>
+
+  <h3>4. Filtering Variants</h3>
+  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering.sh">Variant_filtering.sh</a></p>
+  <p>Solutions: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering_solution.sh">Variant_filtering_solution.sh</a></p>
+  <p>More info: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/variant_filter_description.md">Variant Filter Descriptions</a></p>
+
+  <h3>5. Population Structure & Visualization</h3>
+  <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Basic_population_genetics.sh">Basic_population_genetics.sh</a></p>
+  <p>Includes converting VCF to PLINK formats, performing PCA, and interpreting population-level genetic structure.</p>
+
+  <footer>
+    <p>© 2025 <strong>PoODL_ Genomic Learning Workshop</strong> | All rights reserved.</p>
+    <p>This material is part of the <strong>Kenya Wildlife Genomics3 Workshop</strong>.</p>
+  </footer>
+
+</body>
+</html>
