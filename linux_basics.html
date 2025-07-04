@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Linux Basics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    h2 {
+      color: #2e6c80;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐧 Linux Basics</h1>
+
+  <h2>To View a File in Linux:</h2>
+  <pre><code class="language-bash">
+cat test_table1.txt
+# or
+less test_table1.txt  # Opens in a scrollable view. Press 'q' to exit.
+  </code></pre>
+
+  <h2>To List Contents in a Directory:</h2>
+  <pre><code class="language-bash">
+ls &lt;folder_name&gt;
+  </code></pre>
+
+  <h2>Task 1</h2>
+
+  <h3>Create the Following Table in a File Named <code>test_table1.txt</code>:</h3>
+  <pre>
+1  2  3  4  5
+6  7  8  9  10
+11 12 13 14
+15 16 17 18
+  </pre>
+
+  <h3>Shell Command to Create the File:</h3>
+  <pre><code class="language-bash">
+cat &lt;&lt;EOF &gt; test_table1.txt
+1  2  3  4  5
+6  7  8  9  10
+11 12 13 14
+15 16 17 18
+EOF
+  </code></pre>
+
+  <h3>Create a Directory and Move the File:</h3>
+  <pre><code class="language-bash">
+mkdir genomics_workshop_PoODL
+mv test_table1.txt genomics_workshop_PoODL/
+  </code></pre>
+
+  <h3>Count the Number of Lines:</h3>
+  <pre><code class="language-bash">
+wc -l genomics_workshop_PoODL/test_table1.txt
+  </code></pre>
+
+  <h3>Count the Number of Columns Per Row:</h3>
+  <pre><code class="language-bash">
+awk '{ print NF }' genomics_workshop_PoODL/test_table1.txt
+  </code></pre>
+
+  <h3>Count How Many Times "1" Appears:</h3>
+  <pre><code class="language-bash">
+grep -o "1" genomics_workshop_PoODL/test_table1.txt | wc -l
+  </code></pre>
+
+  <h3>Count Number of Words/Strings Containing "1":</h3>
+  <pre><code class="language-bash">
+grep -o '\S*1\S*' genomics_workshop_PoODL/test_table1.txt | wc -l
+  </code></pre>
+
+  <h3>Delete the File:</h3>
+  <pre><code class="language-bash">
+rm genomics_workshop_PoODL/test_table1.txt
+  </code></pre>
+
+</body>
+</html>
