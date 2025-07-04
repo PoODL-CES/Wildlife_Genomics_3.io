@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Linux Basics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    h1 {
+      color: #2e6c80;
+    }
+    h2 {
+      color: #2e6c80;
+    }
+    h3 {
+      color: #3b4c5e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐧 Linux Basics</h1>
+
+  <h2>View File in Linux</h2>
+  <pre><code class="language-bash">
+cat test_table1.txt
+# or
+less test_table1.txt  # Opens in a scrollable view. Press 'q' to exit.
+  </code></pre>
+
+  <h2>List Contents in a Directory</h2>
+  <pre><code class="language-bash">
+ls &lt;folder_name&gt;
+  </code></pre>
+
+  <h2>Task 1</h2>
+
+  <h3>Create the Following Table in <code>test_table1.txt</code>:</h3>
+  <pre>
+1  2  3  4  5
+6  7  8  9  10
+11 12 13 14
+15 16 17 18
+  </pre>
+
+  <h3>Solution 1 (Formatted Print)</h3>
+  <pre><code class="language-bash">
+touch test_table.txt
+{
+  printf "%2d  %2d  %2d  %2d  %2d\n" 1 2 3 4 5
+  printf "%2d  %2d  %2d  %2d  %2d\n" 6 7 8 9 10
+  printf "%2d  %2d  %2d  %2d\n" 11 12 13 14
+  printf "%2d  %2d  %2d  %2d\n" 15 16 17 18
+} &gt; test_table.txt
+  </code></pre>
+
+  <h3>Solution 2 (Here Document)</h3>
+  <pre><code class="language-bash">
+cat &gt; test_table1.txt
+1    2    3    4    5
+6    7    8    9    10
+11    12    13    14
+15    16    17    18
+(Ctrl+D to save)
+  </code></pre>
+
+  <h3>Solution 3 (nano)</h3>
+  <pre><code class="language-bash">
+nano test_table1.txt
+# Type the table, press Ctrl+X to exit, then Y to save
+  </code></pre>
+
+  <h3>Solution 4 (vim)</h3>
+  <pre><code class="language-bash">
+vim test_table1.txt
+# Press 'i' to insert text, then ':wq' to save and exit
+  </code></pre>
+
+  <h3>Create Directory & Move File</h3>
+  <pre><code class="language-bash">
+mkdir genomics_workshop_PoODL
+mv test_table1.txt genomics_workshop_PoODL/
+cd genomics_workshop_PoODL
+  </code></pre>
+
+  <h2>Basic File Statistics</h2>
+
+  <h3>Count Number of Lines</h3>
+  <pre><code class="language-bash">
+wc -l test_table1.txt
+  </code></pre>
+
+  <h3>Count Number of Characters</h3>
+  <pre><code class="language-bash">
+wc -m test_table1.txt
+  </code></pre>
+
+  <h3>Count Columns per Row</h3>
+  <pre><code class="language-bash">
+awk -F' ' '{print NF}' test_table1.txt
+awk '{print NF}' test_table1.txt
+while read line; do echo "$line" | wc -w; done &lt; test_table1.txt
+  </code></pre>
+
+  <h3>Count Occurrences of "1"</h3>
+  <pre><code class="language-bash">
+grep -o '1' test_table1.txt | wc -l
+  </code></pre>
+
+  <h3>Count Words Containing "1"</h3>
+  <pre><code class="language-bash">
+grep -o '\S*1\S*' test_table1.txt | wc -l
+less test_table1.txt | tr -s '\t' '[\n*]' | grep "1" | wc -l
+  </code></pre>
+
+  <h3>Delete the File</h3>
+  <pre><code class="language-bash">
+rm test_table1.txt
+  </code></pre>
+
+</body>
+</html>
