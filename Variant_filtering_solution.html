@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Read Alignment and Processing Workflow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #fefefe;
+            color: #333;
+        }
+        code, pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+            overflow-x: auto;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        h3 {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Task 1: Map Trimmed Reads Using BWA-MEM</h2>
+<p>Reference genome and indexes from: <a href="https://zenodo.org/records/14258052">Zenodo Record</a></p>
+
+<h3>Install BWA</h3>
+<pre><code>conda create -n bwa -c bioconda bwa
+conda activate bwa</code></pre>
+
+<h3>Single Sample Alignment</h3>
+<pre><code>bwa mem GCA_021130815.1_PanTigT.MC.v3_genomic.fna \
+BEN_NW10_sub_1_val_1.fq.gz BEN_NW10_sub_2_val_2.fq.gz \
+&gt; BEN_NW_10_aligned_reads.sam</code></pre>
+
+<h3>Batch Alignment</h3>
+<pre><code>for file1 in *_sub_1_val_1.fq.gz; do
+    file2=${file1/_sub_1_val_1.fq.gz/_sub_2_val_2.fq.gz}
+    sample_name=$(basename "$file1" _sub_1_val_1.fq.gz)
+    bwa mem GCA_021130815.1_PanTigT.MC.v3_genomic.fna "$file1" "$file2" \
+        &gt; "${sample_name}_aligned_reads.sam"
+done</code></pre>
+
+<pre><code>conda deactivate</code></pre>
+
+<h2>Task 2: Convert SAM to BAM</h2>
+
+<h3>Install and Activate Samtools</h3>
+<pre><code>conda create -n samtools -c bioconda samtools
+conda activate samtools</code></pre>
+
+<h3>Convert and Sort</h3>
+<pre><code>samtools view -S -b BEN_NW_10_aligned_reads.sam | \
+samtools sort -o BEN_NW_10_sorted_reads.bam</code></pre>
+
+<h3>Batch SAM to Sorted BAM</h3>
+<pre><code>for file in *.sam; do 
+    samtools view -S -b "$file" | \
+    samtools sort -o "${file%.sam}_sorted.bam"
+done</code></pre>
+
+<pre><code>conda deactivate</code></pre>
+
+<h2>Task 4: Mark Duplicates using GATK4</h2>
+
+<h3>Install and Activate GATK</h3>
+<pre><code>conda create -n gatk4 -c bioconda gatk4
+conda activate gatk4</code></pre>
+
+<h3>Single Sample</h3>
+<pre><code>gatk MarkDuplicates \
+-I BEN_NW_10_sorted_reads.bam \
+-O BEN_NW_10_deduplicated.bam \
+-M BEN_NW_10_duplication_metrics.txt \
+--REMOVE_DUPLICATES true</code></pre>
+
+<h3>Parallel MarkDuplicates (Optional)</h3>
+<pre><code>conda create -n parallel -c bioconda parallel
+conda activate parallel
+
+parallel 'source ~/miniconda3/etc/profile.d/conda.sh &amp;&amp; \
+conda activate bwa &amp;&amp; \
+gatk MarkDuplicates -I {} -O {.}_deduplicated.bam \
+-M {.}_duplication_metrics.txt --REMOVE_DUPLICATES true' ::: *_sorted.bam</code></pre>
+
+<h3>Loop-based MarkDuplicates</h3>
+<pre><code>for file in *_sorted.bam; do
+    base=${file%_sorted.bam}
+    gatk MarkDuplicates \
+        -I "$file" \
+        -O "${base}_deduplicated.bam" \
+        -M "${base}_duplication_metrics.txt" \
+        --REMOVE_DUPLICATES true
+done</code></pre>
+
+<h2>Task 5: Index Deduplicated BAM Files</h2>
+
+<pre><code>samtools index BEN_NW_10_deduplicated.bam</code></pre>
+
+<h3>Batch Indexing</h3>
+<pre><code>samtools index *_deduplicated.bam
+# or
+parallel 'samtools index {}' ::: *_deduplicated.bam</code></pre>
+
+<h3>Generate Alignment Statistics</h3>
+<pre><code>parallel 'samtools stats {} &gt; {.}_stats.txt' ::: *_deduplicated.bam</code></pre>
+
+<h2>Task 6: Generate Sequencing Statistics with Qualimap</h2>
+
+<h3>Install and Activate Qualimap</h3>
+<pre><code>conda create -n qualimap -c bioconda qualimap
+conda activate qualimap</code></pre>
+
+<h3>Run BAMQC for a Single Sample</h3>
+<pre><code>qualimap bamqc \
+-bam BEN_NW12_aligned_reads_sorted_deduplicated.bam \
+-outdir qualimap_results \
+-outformat HTML</code></pre>
+
+<h3>Run for All Samples</h3>
+<pre><code>qualimap bamqc \
+-bam *_aligned_reads_sorted_deduplicated.bam \
+-outdir qualimap_results \
+-outformat HTML</code></pre>
+
+<h3>View Coverage Summary</h3>
+<pre><code>cd qualimap_results
+cat genome_results.txt</code></pre>
+
+<p>Look for the section <strong>“Chromosome-wise coverage”</strong> or similar.</p>
+
+</body>
+</html>
