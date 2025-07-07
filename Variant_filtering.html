@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VCF Filtering and PCA Workflow</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    code, pre {
+      background-color: #eee;
+      padding: 10px;
+      display: block;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-left: 5px solid #ccc;
+    }
+    h2, h3 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>VCF Filtering and PCA Workflow</h2>
+
+  <h3>1. Apply Base Quality, Genotype Quality, and Hardy-Weinberg Equilibrium (HWE) Filters</h3>
+  <p>Apply quality-based filters to retain high-confidence variants.</p>
+
+  <h3>2. Remove Indels</h3>
+  <p>Retain only SNPs (single nucleotide polymorphisms) by removing insertions and deletions.</p>
+
+  <h3>3. Apply Individual Missingness Filter</h3>
+  <p>Remove individuals with more than 60% missing data:</p>
+  <pre><code>--mind 0.6</code></pre>
+
+  <h3>4. Apply Site Missingness Filter</h3>
+  <p>Filter out variants that are not commonly genotyped across individuals.</p>
+  <pre><code>--max-missing [value between 0.1 to 0.9]</code></pre>
+
+  <h3>5. Record Variant Counts for Different Missingness Thresholds</h3>
+  <p>Extract and save the number of variants remaining at each threshold (0.1 to 0.9):</p>
+  <pre><code>for i in $(seq 0.1 0.1 0.9); do
+  vcftools --vcf input.vcf --max-missing $i --recode --out filtered_$i
+  grep -v '^#' filtered_$i.recode.vcf | wc -l >> variant_counts.txt
+done</code></pre>
+
+  <h3>6. Plot <code>variant_counts.txt</code> Using ggplot2 in R</h3>
+  <pre><code>library(ggplot2)
+data <- read.table("variant_counts.txt", header=FALSE)
+colnames(data) <- c("Missingness", "VariantCount")
+ggplot(data, aes(x=Missingness, y=VariantCount)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title="Variant Counts vs. Missingness", x="Max Missingness", y="Number of Variants")</code></pre>
+
+  <h3>7. Apply Final Missingness Filter (Max Missing = 0.6)</h3>
+  <p>This retains variants that are present in at least 60% of individuals.</p>
+  <pre><code>vcftools --vcf input.vcf --max-missing 0.6 --recode --out final_filtered</code></pre>
+
+  <h3>8. Use Site Mean Depth Filter</h3>
+  <p>Calculate mean depth per variant:</p>
+  <pre><code>vcftools --vcf final_filtered.recode.vcf --site-mean-depth --out depth_stats</code></pre>
+
+  <h3>9. Extract Depth Values Between 5th and 97.5th Percentiles</h3>
+  <p>Use R or Python to compute the 0.05 and 0.975 quantiles and filter sites accordingly.</p>
+
+  <h3>10. Apply Depth Filters to Retain Only Mid 95% Variants</h3>
+  <pre><code>vcftools --vcf final_filtered.recode.vcf --min-meanDP [5th percentile] --max-meanDP [97.5th percentile] --recode --out depth_filtered</code></pre>
+
+  <h3>11. Perform PCA</h3>
+  <p>Convert to PLINK format and run PCA:</p>
+  <pre><code>plink --vcf depth_filtered.recode.vcf --make-bed --out pca_data
+plink --bfile pca_data --pca --out pca_results</code></pre>
+
+</body>
+</html>
