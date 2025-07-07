@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Read Mapping and Processing Workflow</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    code, pre {
+      background-color: #eee;
+      padding: 10px;
+      display: block;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-left: 5px solid #ccc;
+    }
+    h2, h3, h4 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Task 1: Map Trimmed Reads Using BWA MEM</h2>
+  <p><strong>Install BWA</strong></p>
+  <pre><code>conda create -n bwa -c bioconda bwa
+conda activate bwa</code></pre>
+
+  <p><strong>Align Reads</strong></p>
+  <pre><code>bwa mem GCA_021130815.1_PanTigT.MC.v3_genomic.fna BEN_NW10_sub_1_val_1.fq.gz BEN_NW10_sub_2_val_2.fq.gz > BEN_NW_10_aligned_reads.sam</code></pre>
+
+  <p><strong>Loop for All Samples</strong></p>
+  <pre><code>for file1 in *_sub_1_val_1.fq.gz; do
+  file2=${file1/_sub_1_val_1.fq.gz/_sub_2_val_2.fq.gz}
+  sample_name=$(basename "$file1" _sub_1_val_1.fq.gz)
+  bwa mem GCA_021130815.1_PanTigT.MC.v3_genomic.fna "$file1" "$file2" > "${sample_name}_aligned_reads.sam"
+done</code></pre>
+
+  <p><strong>Deactivate BWA Environment</strong></p>
+  <pre><code>conda deactivate</code></pre>
+
+  <h2>Task 2: Convert SAM to BAM and Sort</h2>
+  <p><strong>Install and Activate Samtools</strong></p>
+  <pre><code>conda create -n samtools -c bioconda samtools
+conda activate samtools</code></pre>
+
+  <p><strong>Convert and Sort</strong></p>
+  <pre><code>samtools view -S -b BEN_NW_10_aligned_reads.sam | samtools sort -o BEN_NW_10_sorted_reads.bam</code></pre>
+
+  <p><strong>Batch Conversion</strong></p>
+  <pre><code>for file in *.sam; do 
+  samtools view -S -b "$file" | samtools sort -o "${file%.sam}_sorted.bam"
+done</code></pre>
+
+  <p><strong>Deactivate Samtools Environment</strong></p>
+  <pre><code>conda deactivate</code></pre>
+
+  <h2>Task 3: Mark Duplicates Using GATK4</h2>
+  <p><strong>Install and Activate GATK4</strong></p>
+  <pre><code>conda create -n gatk4 -c bioconda gatk4
+conda activate gatk4</code></pre>
+
+  <p><strong>Mark Duplicates</strong></p>
+  <pre><code>gatk MarkDuplicates -I BEN_NW_10_sorted_reads.bam -O BEN_NW_10_deduplicated.bam -M BEN_NW_10_duplication_metrics.txt --REMOVE_DUPLICATES true</code></pre>
+
+  <p><strong>Parallel Mark Duplicates</strong></p>
+  <pre><code>conda create -n parallel -c bioconda parallel
+conda activate parallel
+parallel 'source ~/miniconda3/etc/profile.d/conda.sh && conda activate bwa && gatk MarkDuplicates -I {} -O {.}_deduplicated.bam -M {.}_duplication_metrics.txt --REMOVE_DUPLICATES true' ::: *_sorted.bam</code></pre>
+
+  <p><strong>Loop Version</strong></p>
+  <pre><code>for file in *_sorted.bam; do
+  base=${file%_sorted.bam}
+  gatk MarkDuplicates \
+    -I "$file" \
+    -O "${base}_deduplicated.bam" \
+    -M "${base}_duplication_metrics.txt" \
+    --REMOVE_DUPLICATES true
+done</code></pre>
+
+  <h2>Task 4: Index Deduplicated Files</h2>
+  <pre><code>samtools index BEN_NW_10_deduplicated.bam</code></pre>
+
+  <p><strong>Batch Indexing</strong></p>
+  <pre><code>samtools index *_deduplicated.bam
+parallel 'samtools index {}' ::: *_deduplicated.bam</code></pre>
+
+  <p><strong>Get BAM Statistics</strong></p>
+  <pre><code>parallel 'samtools stats {} > {.}_stats.txt' ::: *_deduplicated.bam</code></pre>
+
+  <h2>Task 5: Estimate Coverage using Qualimap</h2>
+  <pre><code>conda create -n qualimap -c bioconda qualimap
+conda activate qualimap</code></pre>
+
+  <p><strong>Run on Single File</strong></p>
+  <pre><code>qualimap bamqc -bam BEN_NW12_aligned_reads_sorted_deduplicated.bam -outdir qualimap_results -outformat HTML</code></pre>
+
+  <p><strong>Run on All Files</strong></p>
+  <pre><code>qualimap bamqc -bam *_aligned_reads_sorted_deduplicated.bam -outdir qualimap_results -outformat HTML</code></pre>
+
+  <p><strong>Check Output</strong></p>
+  <pre><code>cd qualimap_results
+cat genome_results.txt</code></pre>
+
+</body>
+</html>
