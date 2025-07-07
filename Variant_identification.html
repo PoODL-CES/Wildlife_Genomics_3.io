@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Variant Calling using Strelka</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    code, pre {
+      background-color: #eee;
+      padding: 10px;
+      display: block;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-left: 5px solid #ccc;
+    }
+    h2, h3 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Variant Calling using Strelka</h2>
+
+  <h3>1. Install and Activate Strelka</h3>
+  <pre><code>conda create -n strelka -c bioconda strelka
+conda activate strelka</code></pre>
+
+  <p>This creates a new Conda environment named <code>strelka</code> and installs Strelka2 from the bioconda channel.</p>
+
+  <h3>2. Index the Reference Genome</h3>
+  <pre><code>samtools faidx GCA_021130815.1_PanTigT.MC.v3_genomic.fna</code></pre>
+  <p><code>faidx</code> stands for FASTA indexing. Skip this step if the <code>.fai</code> index file already exists.</p>
+
+  <h3>3. Run Strelka (Two-Step Process)</h3>
+
+  <h4>Step 1: Configuration</h4>
+  <p>Check if Strelka is installed properly:</p>
+  <pre><code>which configureStrelkaGermlineWorkflow.py</code></pre>
+
+  <p>Configure the workflow:</p>
+  <pre><code>/home/your_username/miniconda3/envs/strelka/bin/configureStrelkaGermlineWorkflow.py \
+  --bam name_of_the_file_aligned_reads_sorted_deduplicated.bam \
+  --referenceFasta reference_genome_filename.fna \
+  --runDir strelka_germline</code></pre>
+
+  <p>
+    <strong>Explanation:</strong><br>
+    <code>configureStrelkaGermlineWorkflow.py</code> prepares the pipeline and generates necessary files.<br>
+    <code>--bam</code> specifies the input BAM file.<br>
+    <code>--referenceFasta</code> provides the reference genome.<br>
+    <code>--runDir</code> specifies the output directory for the configured workflow.
+  </p>
+
+  <h4>Step 2: Workflow Execution</h4>
+  <pre><code>strelka_germline/runWorkflow.py -m local -j 8</code></pre>
+  <p>
+    This runs the variant calling process using the previously configured script.<br>
+    <code>-m local</code> runs the workflow on the local machine.<br>
+    <code>-j 8</code> uses 8 CPU threads for parallel execution.
+  </p>
+
+  <h3>4. Joint Variant Calling for Multiple Samples</h3>
+  <p>To call variants using multiple BAM files together:</p>
+  <pre><code>configureStrelkaGermlineWorkflow.py \
+  --bam indv1.bam \
+  --bam indv2.bam \
+  --bam indv3.bam \
+  --referenceFasta GCA_021130815.1_PanTigT.MC.v3_genomic.fna \
+  --runDir output_folder</code></pre>
+
+  <p>Then run the workflow:</p>
+  <pre><code>output_folder/runWorkflow.py -m local -j 8</code></pre>
+
+  <p><strong>Note:</strong> An output directory will be generated containing the variant calling results for each input BAM file.</p>
+
+</body>
+</html>
