@@ -89,54 +89,72 @@
   </ul>
 
  <h3>Linux Shell Basics</h3>
+  
+  <ul>
+   <li><a href="linux_basics.html" target="_blank">Basic Tutorial</a></li>
+
+    <li><a href="linx_basic_solution.html" target="_blank">Linux Basics Solutions </a></li>
+
+  </ul>
+
+   <h3>Advanced Linux Commands</h3>
 <ul>
-  <li><a href="linux_basics.html" target="_blank">Basic Tutorial</a></li>
-  <li><a href="Linux_basics_solution.html" target="_blank">Linux Basics Solutions (HTML)</a></li>
+  <li><a href="linux_advance.html" target="_blank">Advanced Tutorial </a></li>
+  <li><a href="Linux_advance_solution.html" target="_blank">Linux Advance Solutions</a></li>
 </ul>
 
-    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_advanced.sh">Advanced Linux Commands Exercise</a></li>
-    <li><a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Linux_advanced_solutions.sh">Advanced Linux Commands Solutions</a></li>
+
+</ul>
+  
     <li><a href="https://ryanstutorials.net/linuxtutorial/navigation.php">Linux Tutorial</a></li>
   </ul>
 
   <h2>Workshop Pipeline Breakdown</h2>
 
    <h3>1. Initial Processing of FASTQ Files</h3>
-    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Fastq_file_processing_solutions.sh">Fastq_file_processing_solutions.sh</a></p>
     <ul>
+  <li><a href="Fastq_file_processing_solutions.html" target="_blank">Fastq File Processing Solutions</a></li>
+</ul>
+  <p>
+    Includes quality check (FastQC), adapter trimming (Trim Galore/trimmomatic), and preparing cleaned reads.
+  </p>
         <li>Check read quality (e.g., <code>fastqc</code>)</li>
         <li>Trim adapters or poor-quality reads (<code>Trim-galore</code>, <code>trimmomatic</code>)</li>
         <li>Clean FASTQ files ready for mapping</li>
     </ul>
 
     <h3>2. Mapping Reads to Reference Genome</h3>
-    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Read_mapping_and_sorting_solutions.sh">Read_mapping_and_sorting_solutions.sh</a></p>
-    <ul>
+     <ul>
+  <li><a href="Read_mapping_and_sorting_solutions.html" target="_blank">Read Mapping And Sorting Solutions.</a></li>
+</ul>
+  <p>
         <li>Align with <code>BWA</code> or <code>Bowtie2</code></li>
         <li>Convert SAM to BAM, sort and index using <code>samtools</code></li>
     </ul>
 
     <h3>3. Identifying Variants (SNPs/Indels)</h3>
-    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_identification.sh">Variant_identification.sh</a></p>
-    <ul>
+    
+  <p>Script:  <li><a href="Variant_identification.html" target="_blank">Variant Identification.</a></li>
+   
+  <p>
         <li>Call variants using <code>bcftools</code> or <code>strelka</code></li>
         <li>Generate a VCF file</li>
         <li>Optionally apply variant filtering</li>
     </ul>
 
     <h3>4. Filtering Variants</h3>
-    <p>
-        Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering.sh">Variant_filtering.sh</a><br>
-        Solutions: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Variant_filtering_solution.sh">Variant_filtering_solution.sh</a><br>
-        More Info: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/variant_filter_description.md">Variant Filter Descriptions</a>
-    </p>
+  
+  <p>Script:  <li><a href="Variant_filtering.html" target="_blank">Variant Filtering.</a></li>
+  <p>Solutions File:  <li><a href="Variant_filtering_solution.html" target="_blank">Variant Filtering Solution.</a></li>
+  <p>Explanation: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/variant_filter_description.md" target="_blank">Variant Filter Descriptions</a></p>
+
     <ul>
         <li>Apply filters with <code>bcftools</code>, <code>vcftools</code></li>
         <li>Remove low-confidence variants</li>
     </ul>
 
     <h3>5. Population Structure & Visualization</h3>
-    <p>Script: <a href="https://github.com/PoODL-CES/Genomics_learning_workshop/blob/main/Basic_population_genetics.sh">Basic_population_genetics.sh</a></p>
+      <p>Script:  <li><a href="Basic_population_genetics.html" target="_blank">Basic Population Genetics.</a></li>
     <ul>
         <li>Convert VCFs to <code>.bed</code>, <code>.ped</code> using <code>plink</code></li>
         <li>Perform PCA to explore population structure</li>
