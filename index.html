@@ -190,7 +190,7 @@
     <li><a href="https://ryanstutorials.net/linuxtutorial/navigation.php">Linux Tutorial</a></li>
   </ul>
 
-  <h2>Workshop Pipeline Breakdown</h2>
+  <h2>Population Genetics Workshop Pipeline Breakdown</h2>
 
    <h3>1. Initial Processing of FASTQ Files</h3>
     <ul>
@@ -202,6 +202,13 @@
         <li>Check read quality (e.g., <code>fastqc</code>)</li>
         <li>Trim adapters or poor-quality reads (<code>Trim-galore</code>, <code>trimmomatic</code>)</li>
         <li>Clean FASTQ files ready for mapping</li>
+
+     <div class="video">
+    <a href="https://www.youtube.com/watch?v=lUk5Ju3vCDM" target="_blank">
+      <img src="https://img.youtube.com/vi/lUk5Ju3vCDM/hqdefault.jpg" alt="FastQC video">
+    </a>
+  </div>
+    
     </ul>
 
     <h3>2. Mapping Reads to Reference Genome</h3>
@@ -211,6 +218,12 @@
   <p>
         <li>Align with <code>BWA</code> or <code>Bowtie2</code></li>
         <li>Convert SAM to BAM, sort and index using <code>samtools</code></li>
+  <div class="video">
+    <a href="https://www.youtube.com/watch?v=omZHPZwJEBE" target="_blank">
+      <img src="https://img.youtube.com/vi/omZHPZwJEBE/hqdefault.jpg" alt="BWA video">
+    </a>
+  </div>
+    
     </ul>
 
     <h3>3. Identifying Variants (SNPs/Indels)</h3>
@@ -222,7 +235,11 @@
         <li>Generate a VCF file</li>
         <li>Optionally apply variant filtering</li>
     </ul>
-
+ <div class="video">
+    <a href="https://www.youtube.com/watch?v=Y632IKKQW7U" target="_blank">
+      <img src="https://img.youtube.com/vi/Y632IKKQW7U/hqdefault.jpg" alt="Variant Calling video">
+    </a>
+  </div>
     <h3>4. Filtering Variants</h3>
   
   <p>Script:   <!-- <li><a href="Variant_filtering.html" target="_blank">Variant Filtering.</a></li> -->
@@ -240,6 +257,11 @@
         <li>Convert VCFs to <code>.bed</code>, <code>.ped</code> using <code>plink</code></li>
         <li>Perform PCA to explore population structure</li>
         <li>Visualize and interpret clustering and outliers</li>
+      <div class="video">
+    <a href="https://www.youtube.com/watch?v=5vgP05YpKdE" target="_blank">
+      <img src="https://img.youtube.com/vi/5vgP05YpKdE/hqdefault.jpg" alt="PCA video">
+    </a>
+  </div>
     </ul>
 
 
