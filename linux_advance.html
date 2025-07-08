@@ -52,30 +52,19 @@ AAFFFJJJJJJJJJJJJJJJJ...      # Base quality scores
   <h2>Read Length Analysis</h2>
 
   <h3>Count Total Reads:</h3>
-  <pre><code class="language-bash">
-zcat file.fastq.gz | echo $((`wc -l`/4))
-  </code></pre>
+ 
 
   <h3>Reads Shorter than 150bp:</h3>
-  <pre><code class="language-bash">
-zcat file.fastq.gz | awk 'NR%4==2 { if(length($0)&lt;150) count++ } END { print count }'
-  </code></pre>
+  
 
   <h3>Reads Longer than 150bp:</h3>
-  <pre><code class="language-bash">
-zcat file.fastq.gz | awk 'NR%4==2 { if(length($0)&gt;150) count++ } END { print count }'
-  </code></pre>
+ 
 
   <h3>Reads Not Equal to 150bp:</h3>
-  <pre><code class="language-bash">
-zcat file.fastq.gz | awk 'NR%4==2 { if(length($0)!=150) count++ } END { print count }'
-  </code></pre>
+  
 
   <h3>Reads Contaminated with Illumina Adapter:</h3>
   <p>Adapter sequence: <code>CTGTCTCTTATACACATCT</code></p>
-  <pre><code class="language-bash">
-zcat file.fastq.gz | awk 'NR%4==2' | grep -c 'CTGTCTCTTATACACATCT'
-  </code></pre>
-
+  
 </body>
 </html>
