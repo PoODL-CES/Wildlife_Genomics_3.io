@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Variant Analysis Tasks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: #fdfdfd;
+      margin: 40px;
+    }
+    h1 {
+      text-align: center;
+    }
+    details {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    code {
+      background: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Variant Analysis Task List</h1>
+
+<details open>
+  <summary>Task 1: Alignment & BAM File Processing</summary>
+  <ul>
+    <li>Map trimmed reads to reference genome using <code>bwa mem</code></li>
+    <li>Convert SAM to BAM format</li>
+    <li>Sort BAM file by genomic coordinates</li>
+    <li>Mark/remove duplicates (skip for ddRAD, RADseq, amplicon data)</li>
+    <li>Index the BAM file</li>
+    <li>Estimate mapping statistics: sequencing depth, % mapping, coverage</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 2: VCF to PLINK Format Conversion</summary>
+  <ul>
+    <li>Convert VCF to PLINK binary format using <code>plink --make-bed</code></li>
+    <li>Edit <code>.fam</code> file to add region information to second column</li>
+    <li>Edit <code>.bim</code> file: Replace chromosome name <code>E2</code> with <code>1</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 3: Principal Component Analysis (PCA)</summary>
+  <ul>
+    <li>Run PCA with <code>plink --pca 5</code></li>
+    <li>Visualize in R with <code>ggplot2</code></li>
+    <li>Save PCA plot as <code>.png</code> and <code>.pdf</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 4: File Transfer</summary>
+  <ul>
+    <li>Use <code>scp</code> to copy output files from server to local machine</li>
+    <li>Example: <code>scp user@IP:path/to/Rplots.pdf .</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 5: ADMIXTURE Analysis</summary>
+  <ul>
+    <li>Create conda environment and install ADMIXTURE</li>
+    <li>Run ADMIXTURE for K = 2 to 4 using loop</li>
+    <li>Generate output files <code>.K.P</code> and <code>.K.Q</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 6: ADMIXTURE Plotting</summary>
+  <ul>
+    <li>Read <code>.Q</code> and <code>.fam</code> files into R</li>
+    <li>Extract group/population from sample IDs</li>
+    <li>Reshape data and plot using <code>ggplot2</code></li>
+    <li>Save barplot as <code>admixture_K3_grouped.png</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 7: Heterozygosity Estimation</summary>
+  <ul>
+    <li>Install <code>rtg-tools</code> using conda</li>
+    <li>Run <code>rtg vcfstats</code> on final VCF</li>
+    <li>Save output as <code>.vcfstats</code> file</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Task 8: Optional / Miscellaneous Tasks</summary>
+  <ul>
+    <li>Activate/deactivate conda environments as needed</li>
+    <li>Exit server after analysis with <code>exit</code> command</li>
+  </ul>
+</details>
+
+</body>
+</html>
