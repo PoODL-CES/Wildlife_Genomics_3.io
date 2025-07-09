@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Genetic Variant Filtering Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    h2,
+    h3 {
+      color: #2c3e50;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Genetic Variant Filtering Guide</h1>
+
+  <p>
+    Welcome! This page breaks down the essential filters used for the refinement of genetic variant data before the downstream analysis. From removing errors to keeping only high-confidence SNPs, each step here helps you build more accurate dataset for things like population genetics, GWAS, and PCA. Whether you're new to variant filtering or just need an in-depth understanding of the step, this guide makes complex filters easy to understand and even easier to apply.
+  </p>
+
+  <table>
+    <tr>
+      <th>Filter Name</th>
+      <th>Description</th>
+    </tr>
+    <tr><td><code>passOnly</code></td><td>Retained only variants that passed all internal quality filters from the variant caller (Strelka in this case).</td></tr>
+    <tr><td><code>biallelicOnly</code></td><td>Kept only biallelic variants (i.e., sites with exactly two alleles) for downstream compatibility and clarity.</td></tr>
+    <tr><td><code>rmvIndels</code></td><td>Removed insertions and deletions (INDELs), keeping only SNPs (single nucleotide polymorphisms).</td></tr>
+    <tr><td><code>minMAF0Pt05</code></td><td>Filtered for variants with a <strong>minor allele frequency (MAF) ≥ 0.05</strong>, ensuring informative polymorphisms and removing rare variants.</td></tr>
+    <tr><td><code>chr_E2</code></td><td>Restricted to a specific chromosome/region of interest (e.g., <code>chr_E2</code>).</td></tr>
+    <tr><td><code>minDP3</code></td><td>Required a <strong>minimum depth (DP) of 3</strong> per genotype to avoid false positives due to low coverage.</td></tr>
+    <tr><td><code>minQ30</code></td><td>Ensured that each site has a <strong>minimum site quality score of 30</strong>, reflecting high confidence in the variant.</td></tr>
+    <tr><td><code>minGQ30</code></td><td>Filtered genotypes to retain only those with a <strong>Genotype Quality (GQ) ≥ 30</strong>, removing uncertain genotype calls.</td></tr>
+    <tr><td><code>hwe_0.05</code></td><td>Removed variants deviating significantly from <strong>Hardy-Weinberg Equilibrium</strong> (p &lt; 0.05).</td></tr>
+    <tr><td><code>imiss_0.6</code></td><td>Filtered out individuals with <strong>&gt;60% missing genotypes</strong> to maintain data quality.</td></tr>
+    <tr><td><code>miss_0.6</code></td><td>Removed variants missing in <strong>&gt;60% of individuals</strong>, ensuring sufficient representation across samples.</td></tr>
+    <tr><td><code>mid95percentile</code></td><td>Retained the <strong>middle 95%</strong> of data based on depth distribution, trimming extreme outliers.</td></tr>
+    <tr><td><code>noZSB</code></td><td>Custom filter</td></tr>
+  </table>
+
+  <h2>Minor Allele Frequency (MAF)</h2>
+  <p><strong>MAF</strong> is the frequency at which the <em>less common allele</em> occurs at a genetic locus in a population.</p>
+  <p><em>Example:</em> If allele A appears in 90% of individuals and G in 10%, then <strong>MAF = 0.10</strong>.</p>
+
+  <h3>Why apply <code>minMAF0Pt05</code>?</h3>
+  <ul>
+    <li>Keeps informative, common variants</li>
+    <li>Reduces noise from rare alleles or sequencing errors</li>
+    <li>Improves reliability for analyses like PCA, GWAS, or Fst</li>
+  </ul>
+
+  <h2>Depth Filter: <code>minDP3</code></h2>
+  <p>
+    This filter ensures that each genotype (or site) is supported by at least 3 reads. Variants with DP &lt; 3 are excluded.
+  </p>
+  <ul>
+    <li>Ensures reliable variant calls</li>
+    <li>Reduces errors from low-coverage or spurious reads</li>
+    <li>Improves accuracy in downstream analyses</li>
+  </ul>
+
+  <h2>Quality Filter: <code>minQ30</code></h2>
+  <p>
+    This filter retains only variants with a site quality score ≥ 30, indicating high confidence in the variant call.
+    QUAL 30 = 99.9% confidence the variant is true.
+  </p>
+
+  <ul>
+    <li>Removes low-quality or uncertain variants</li>
+    <li>Reduces false positives</li>
+    <li>Improves overall reliability of the dataset</li>
+  </ul>
+
+  <h2>Genotype Quality Filter: <code>minGQ30</code></h2>
+  <p>
+    The genotype quality (GQ) score represents the confidence in the individual genotype call at a variant site.
+    GQ 30 = 99.9% confidence that the genotype is correct.
+  </p>
+
+  <ul>
+    <li>Removes low-confidence genotype calls</li>
+    <li>Reduces false genotyping results</li>
+    <li>Improves the accuracy of downstream sample-level analyses</li>
+  </ul>
+
+  <h2>Hardy-Weinberg Equilibrium (HWE)</h2>
+  <p>
+    The filter <code>hwe_0.05</code> removes variants that deviate significantly from HWE (p-value &lt; 0.05).
+  </p>
+  <ul>
+    <li>May indicate genotyping errors, population structure, or selection</li>
+    <li>Ensures biological validity in population-level studies</li>
+  </ul>
+
+  <h2>Missingness per Sample: <code>imiss_0.6</code></h2>
+  <p>
+    Removes samples with more than 60% missing genotype data.
+  </p>
+  <ul>
+    <li>Removes highly incomplete samples that can bias PCA or ADMIXTURE</li>
+    <li>Balances data quality and retention</li>
+    <li>Improves dataset reliability</li>
+  </ul>
+
+  <h2>Missingness per Site: <code>miss_0.6</code></h2>
+  <p>
+    Removes variant sites where more than 60% of samples have missing data.
+  </p>
+  <ul>
+    <li>Ensures you're analyzing variants seen in most samples</li>
+    <li>Reduces noise from poorly genotyped regions</li>
+  </ul>
+
+  <h2>What is <code>mid95percentile</code>?</h2>
+  <p>
+    This filter retains only those variants where the depth per site falls within the middle 95% of the overall depth distribution.
+  </p>
+  <ul>
+    <li><strong>Removes extreme outliers:</strong> Cuts the lowest 2.5% and highest 2.5%</li>
+    <li><strong>Retains most of the data:</strong> 95% window preserves the bulk of biologically informative variants</li>
+    <li><strong>Balances stringency and power:</strong> Avoids skew from extreme values</li>
+  </ul>
+</body>
+</html>
