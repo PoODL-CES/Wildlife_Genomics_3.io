@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pre-installed list of Conda environment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    h2,
+    h3 {
+      color: #2c3e50;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+  li {
+    margin-bottom: 12px;
+  }
+</style>
+  </style>
+</head>
+<body>
+<h2>All the Conda Environments</h2>n 
+
+<ul>
+  <li>
+    <code>conda create -n fastqc -c bioconda fastqc</code><br>
+    <strong>FastQC</strong> is a quality control tool for high-throughput sequencing data.
+  </li>
+
+  <li>
+    <code>conda create -n trim-galore -c bioconda trim-galore</code><br>
+    <strong>Trim Galore</strong> is a wrapper tool for quality and adapter trimming of FASTQ files. Trimmomatic is a common alternative.
+  </li>
+
+  <li>
+    <code>conda create -n bwa -c bioconda bwa</code><br>
+    <strong>BWA</strong> (Burrows-Wheeler Aligner) is a fast and efficient tool for aligning sequencing reads to a reference genome. Bowtie2 is a common alternative.
+  </li>
+
+  <li>
+    <code>conda create -n samtools -c bioconda samtools</code><br>
+    <strong>Samtools</strong> is a suite of programs for manipulating high-throughput sequencing data in SAM/BAM/CRAM formats.
+  </li>
+
+  <li>
+    <code>conda create -n gatk4 -c bioconda gatk4</code><br>
+    <strong>GATK4</strong> (Genome Analysis Toolkit v4) is a powerful toolkit for variant discovery in high-throughput sequencing data.
+  </li>
+
+  <li>
+    <code>conda create -n qualimap -c bioconda qualimap</code><br>
+    <strong>Qualimap</strong> is a tool for evaluating the quality of sequencing alignment data.
+  </li>
+
+  <li>
+    <code>conda create -n bcftools -c bioconda bcftools</code><br>
+    <strong>BCFtools</strong> is a set of utilities for processing and analyzing VCF and BCF files.
+  </li>
+
+  <li>
+    <code>conda create -n vcftools -c bioconda vcftools</code><br>
+    <strong>VCFtools</strong> is a program suite for working with VCF files, enabling filtering and summarizing.
+  </li>
+
+  <li>
+    <code>conda create -n r_env -c conda-forge r-base r-ggplot2 r-scales</code><br>
+    Creates a Conda environment named <strong>r_env</strong> with R, ggplot2, and scales packages from conda-forge.
+  </li>
+
+  <li>
+    <code>conda create -n plink -c bioconda plink</code><br>
+    <strong>PLINK</strong> is a toolset for whole-genome association studies.
+  </li>
+
+  <li>
+    <code>conda create -n strelka -c bioconda strelka</code><br>
+    <strong>Strelka</strong> is a high-performance variant calling tool for small variants in next-generation sequencing data.
+  </li>
+
+  <li>
+    <code>conda create -n admixture -c bioconda admixture</code><br>
+    <strong>Admixture</strong> is a tool used to estimate ancestries from genotype datasets.
+  </li>
+
+  <li>
+    <code>conda create -n rtg-tools -c bioconda rtg-tools</code><br>
+    <strong>RTG Tools</strong> is a software suite used to compare VCF files, generate variant statistics, and benchmark variant calling pipelines.
+  </li>
+</ul>
