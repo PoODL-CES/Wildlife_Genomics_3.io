@@ -28,9 +28,11 @@
   <h4>Step: Read Mapping and Post-processing</h4>
   <pre><code>#### Map trimmed reads using bwa mem
 
-## The raw data files are available in /data/PwaniGenomics/fastq_data
+## The raw fastq data files are available in /data/PwaniGenomics/fastq_data
+## The reference genome files are available in /data/PwaniGenomics/reference
+    
 ## The reads that were trimmed to remove adapters and low quality bases need to be mapped to a reference genome
-# 📝TASK 1: map the reads to the GCF_018350215.1_P.leo_Ple1_pat1.1_genomic.fna reference genome that was downloaded
+# 📝TASK 1: map the reads to the GCF_018350215.1_P.leo_Ple1_pat1.1_genomic.fna reference genome
 
 ## The mapping creates a .sam file. This occupies lots of storage space on the server so we should convert it to a .bam file
 ## .sam is abbreviation of Sequence Alignment Map and .bam is Binary Alignment Map
