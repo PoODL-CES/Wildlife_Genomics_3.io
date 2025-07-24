@@ -90,9 +90,6 @@ ggtitle('Number of Passed Variants vs. Missingness Filter') + xlab('Max Missingn
 scale_y_continuous(labels = comma) + scale_x_continuous(limits = c(10, 90)) + theme_minimal(); \
 ggsave('variant_plot.png', plot=p)"</code></pre>
 
-  <h3>Optional: Apply Only 0.6 Missingness Filter</h3>
-  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss.recode.vcf --max-missing 0.6 \
---out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels__imiss_0.6_miss_0.6 --recode</code></pre>
 
   <h3>Apply Mean Depth Filter</h3>
 
