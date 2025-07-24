@@ -29,7 +29,7 @@
   <h2>Variant Filtering</h2>
 
   <h3>Download VCF</h3>
-  <p>Download the VCF file from: <a href="https://doi.org/10.5281/zenodo.16312747" target="_blank">Zenodo Record 15173226</a></p>
+  <p>Download the VCF file from: <a href="https://tinyurl.com/ZenodoPopGen2025PUv2" target="_blank">Zenodo Record 15173226</a></p>
 
   <h3>Tool: VCFtools</h3>
   <p>Install vcftools in a new conda environment:</p>
@@ -60,19 +60,19 @@ conda activate vcftools</code></pre>
   <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels.recode.vcf --missing-indv</code></pre>
   <p>This generates <code>out.imiss</code>. To remove individuals with >60% missing data:</p>
   <pre><code>vcftools --vcf  --remove &lt;(awk '$5 &gt; 0.6 {print $1}' out.imiss) \
---recode --out machali_..._imiss_0.6</code></pre>
+--recode --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6</code></pre>
 
   <h4>Apply Missingness Filter by Proportion (0.1–0.9):</h4>
   <pre><code>for miss in {10..90..10}; do
   perc=$(echo "scale=2; $miss / 100" | bc)
-  vcftools --vcf machali_..._imiss_0.6.recode.vcf \
+  vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6.recode.vcf \
   --max-missing $perc \
-  --out machali_..._imiss_0.6_miss_${miss} --recode
+  --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss_${miss} --recode
 done</code></pre>
 
   <h4>Count Variants for Each Filter:</h4>
   <pre><code>for miss in {10..90..10}; do
-  count=$(grep -vc "^#" machali_..._miss_${miss}.recode.vcf)
+  count=$(grep -vc "^#" variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss_${miss}.recode.vcf)
   echo "${miss} ${count}" >> variant_counts.txt
 done</code></pre>
 
@@ -91,13 +91,13 @@ scale_y_continuous(labels = comma) + scale_x_continuous(limits = c(10, 90)) + th
 ggsave('variant_plot.png', plot=p)"</code></pre>
 
   <h3>Optional: Apply Only 0.6 Missingness Filter</h3>
-  <pre><code>vcftools --vcf machali_..._imiss_0.6.recode.vcf --max-missing 0.6 \
---out machali_..._imiss_0.6_miss_0.6 --recode</code></pre>
+  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss.recode.vcf --max-missing 0.6 \
+--out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels__imiss_0.6_miss_0.6 --recode</code></pre>
 
   <h3>Apply Mean Depth Filter</h3>
 
   <h4>Calculate Depth:</h4>
-  <pre><code>vcftools --vcf machali_..._miss_0.6.recode.vcf --site-mean-depth --out depth</code></pre>
+  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf --site-mean-depth --out depth</code></pre>
 
   <h4>Get 95% Depth Range in R:</h4>
   <pre><code>conda create -n R_env -c conda-forge r-base
@@ -113,18 +113,10 @@ cat("Middle 95% range:", lower_bound, "to", upper_bound, "\n")</code></pre>
   <p>Example Output: <code>Middle 95% range: 12.8302 to 24.6604</code></p>
 
   <h4>Apply Depth Filter:</h4>
-  <pre><code>vcftools --vcf machali_..._miss_0.6.recode.vcf \
+  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf \
 --min-meanDP 12.8302 --max-meanDP 24.6604 --recode \
---out machali_..._miss_0.6_mid95percentile</code></pre>
+--out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6_mid95percentile</code></pre>
 
-  <h3>Remove Zoo Samples (ZSB)</h3>
-  <pre><code>grep 'ZSB' out.imiss | awk '{print $1}' > zsb_samples.txt
-
-vcftools --vcf machali_..._mid95percentile.recode.vcf \
---remove zsb_samples.txt --recode \
---out machali_..._mid95percentile_noZSB</code></pre>
-
-  <p>Final filtered VCF is ready after removing zoo samples.</p>
 
 </body>
 </html>
