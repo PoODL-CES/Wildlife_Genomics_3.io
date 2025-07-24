@@ -18,7 +18,19 @@
   <h2>Step 1: Preparing and Cleaning Raw FASTQ Reads</h2>
 
   <h4>The raw fastq reads sometimes have adapter seqeunces and there are low quality bases towards the ends which needs to be removed</h4>
-  <h4>Install conda (https://docs.anaconda.com/miniconda/install/)</h4>
+
+  <h4> We will use miniconda (https://docs.anaconda.com/miniconda/install/) that has already been installed on the server. Miniconda will help us install mupliple and manage multiple softwares</h4>
+  <pre><code>source /data/miniconda3/bin/activate
+/data/miniconda3/bin/conda init --all
+</code></pre>
+
+  <h4>📝 Task1 : Obtain summary of fastq files. Count the number of reads in fastq file, the distribution of read lengths and quality</h4>
+
+  <h4>📝 Task2: Trim the raw fastq reads to remove adapter sequences and low quality bases form the ends</h4>
+  
+  <h3> Extra note </h3>
+  
+  <h4>To install miniconda (https://docs.anaconda.com/miniconda/install/) from scratch the following maybe done on a different server</h4>
   
   <h3>For linux systems</h3>
   <pre><code>mkdir -p ~/miniconda3
@@ -35,8 +47,6 @@ rm ~/miniconda3/miniconda.sh
   <pre><code>miniconda3/bin/./conda init --all
 </code></pre>
 
-  <h4>📝 Task1 : Obtain summary of fastq files. Count the number of reads in fastq file, the distribution of read lengths and quality</h4>
-
-  <h4>📝 Task2: Trim the raw fastq reads to remove adapter sequences and low quality bases form the ends</h4>
+  
 </body>
 </html>
