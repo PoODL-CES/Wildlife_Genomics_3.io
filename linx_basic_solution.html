@@ -51,18 +51,21 @@ ls &lt;folder_name&gt;
   <pre>
 1  2  3  4  5
 6  7  8  9  10
-11  12  13  14
-15  16  17  18
+11  12  13  14  15
+16  17  18  19  20
   </pre>
 
   <h3>Solution 1 (Formatted Print)</h3>
   <pre><code class="language-bash">
-touch test_table.txt
+
+    touch test_table1.txt
 {
   printf "%2d  %2d  %2d  %2d  %2d\n" 1 2 3 4 5
   printf "%2d  %2d  %2d  %2d  %2d\n" 6 7 8 9 10
-  printf "%2d  %2d  %2d  %2d\n" 11 12 13 14
-  printf "%2d  %2d  %2d  %2d\n" 15 16 17 18
+  printf "%2d  %2d  %2d  %2d  %2d\n" 11 12 13 14 15
+  printf "%2d  %2d  %2d  %2d  %2d\n" 16 17 18 19 20
+} > test_table1.txt
+    
 } &gt; test_table.txt
   </code></pre>
 
@@ -71,8 +74,8 @@ touch test_table.txt
 cat &gt; test_table1.txt
 1  2  3  4  5
 6  7  8  9  10
-11  12  13  14
-15  16  17  18
+11  12  13  14  15
+16  17  18  19  20
 (Ctrl+D to save)
   </code></pre>
 
