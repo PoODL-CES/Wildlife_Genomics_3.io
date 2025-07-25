@@ -113,7 +113,9 @@ wc -m test_table1.txt
   <h3>Count Columns per Row</h3>
   <pre><code class="language-bash">
 awk -F' ' '{print NF}' test_table1.txt
+    # or
 awk '{print NF}' test_table1.txt
+    # or
 while read line; do echo "$line" | wc -w; done &lt; test_table1.txt
   </code></pre>
 
@@ -125,6 +127,7 @@ grep -o '1' test_table1.txt | wc -l
   <h3>Count Words Containing "1"</h3>
   <pre><code class="language-bash">
 grep -o '\S*1\S*' test_table1.txt | wc -l
+    # or
 less test_table1.txt | tr -s '\t' '[\n*]' | grep "1" | wc -l
   </code></pre>
 
