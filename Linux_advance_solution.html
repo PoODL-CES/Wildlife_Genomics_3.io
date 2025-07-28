@@ -47,14 +47,14 @@ GGACCTTCTGTCA...              # Nucleotide sequence
 AAFFFJJJJJJJJ...              # Base call quality scores
 </code></pre>
 
-<p>After 100-150 base pairs, the accuracy of base calling decreases. Trimming is usually done to retain only high-quality bases.</p>
+<!-- <p>After 100-150 base pairs, the accuracy of base calling decreases. Trimming is usually done to retain only high-quality bases.</p>
 
 <h3>Renaming downloaded .gz files</h3>
 <pre><code>for file in *\?download=1; do
     newname=$(echo "$file" | sed "s/?download=1//")
     mv "$file" "$newname"
 done
-</code></pre>
+</code></pre> -->
 
 <h3>1. Count number of reads</h3>
 <pre><code>less Benin_1_subset.fastq.gz | grep '^@' | wc -l</code></pre>
