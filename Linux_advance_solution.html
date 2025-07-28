@@ -64,10 +64,15 @@ done
 <pre><code>less Benin_1_subset.fastq.gz | wc -l | awk '{print $1 / 4}'</code></pre>
 
 <p>For all files:</p>
-<pre><code>for file in *.fq.gz; do
+<pre><code>
+  #Strategy 1: count the total number of lines and divide by 4 since all fastq reads are represented by 4 lines as explained
+  for file in *.fq.gz; do
   read_count=$(( $(zcat "$file" | wc -l) / 4 ))
   echo "$(basename "$file"): $read_count reads"
 done
+  
+  #Strategy 2: count the number of line with + since all fastq reads have exactly one line with the only character being a single +
+  less fastq_data/SRR836370_1_subset.fastq.gz | grep "^+$" | wc -l
 </code></pre>
 
 <h3>2. Reads shorter than 150 bp</h3>
