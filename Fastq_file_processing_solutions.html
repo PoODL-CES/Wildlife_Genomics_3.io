@@ -90,9 +90,10 @@ scp -r name@IP_address:/path/to/html_files ~/</code></pre>
 done</code></pre>
  
 <p><strong>Option 2: Use wildcard to automatically detect file pairs</strong></p>
-<pre><code>for file in fastq_data/*_1.fastq.gz; do
-    trim_galore --paired "$file" "${file/_1.fastq.gz/_2.fastq.gz}"
-done</code></pre>
+<pre><code>for file in fastq_data/*_1_subset.fastq.gz 
+  do
+  trim_galore --paired "$file" "${file/_1_subset.fastq.gz/_2_subset.fastq.gz}"
+  done</code></pre>
 
 <p><strong>Output Files:</strong></p>
 <ul>
