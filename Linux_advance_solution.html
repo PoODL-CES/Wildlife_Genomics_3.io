@@ -76,7 +76,7 @@ done
 </code></pre>
 
 <h3>2. Reads shorter than 150 bp</h3>
-<pre><code>zcat  Benin_1_subset.fastq.gz | awk 'NR % 4 == 2 {print length($0)}' | awk '$1&lt;150' | wc -l</code></pre>
+<pre><code>zcat  SRR836370_1_subset.fastq.gz | awk 'NR % 4 == 2 {print length($0)}' | awk '$1&lt;150' | wc -l</code></pre>
 
 <p>For all files:</p>
 <pre><code>for file in *.fq.gz; do
@@ -86,7 +86,7 @@ done
 </code></pre>
 
 <h3>3. Reads longer than 150 bp</h3>
-<pre><code>zcat Benin_1_subset.fastq.gz | awk 'NR % 4 == 2 {print length($0)}' | awk '$1&gt;150' | wc -l</code></pre>
+<pre><code>zcat SRR836370_1_subset.fastq.gz | awk 'NR % 4 == 2 {print length($0)}' | awk '$1&gt;150' | wc -l</code></pre>
 
 <p>For all files:</p>
 <pre><code>for file in *.fq.gz; do
@@ -96,7 +96,7 @@ done
 </code></pre>
 
 <h3>4. Reads not equal to 150 bp</h3>
-<pre><code>zcat Benin_1_subset.fastq.gz | awk 'NR % 4 == 2 {if (length($0) != 150) print length($0)}' | wc -l</code></pre>
+<pre><code>zcat SRR836370_1_subset.fastq.gz | awk 'NR % 4 == 2 {if (length($0) != 150) print length($0)}' | wc -l</code></pre>
 
 <p>For all files:</p>
 <pre><code>for file in *.fq.gz; do
@@ -106,7 +106,7 @@ done
 </code></pre>
 
 <h3>5. Reads contaminated with Illumina adapters</h3>
-<pre><code>zcat Benin_1_subset.fastq.gz | awk 'NR % 4 == 2' | grep -c 'CTGTCTCTTATACACATCT'</code></pre>
+<pre><code>zcat SRR836370_1_subset.fastq.gz | awk 'NR % 4 == 2' | grep -c 'CTGTCTCTTATACACATCT'</code></pre>
 
 <p>For all files:</p>
 <pre><code>for file in *.fq.gz; do
