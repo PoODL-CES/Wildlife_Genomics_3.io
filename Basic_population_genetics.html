@@ -40,19 +40,9 @@
 <h1>Variant Analysis Task List</h1>
 
 <details open>
-  <summary>Task 1: Alignment & BAM File Processing</summary>
-  <ul>
-    <li>Map trimmed reads to reference genome using <code>bwa mem</code></li>
-    <li>Convert SAM to BAM format</li>
-    <li>Sort BAM file by genomic coordinates</li>
-    <li>Mark/remove duplicates (skip for ddRAD, RADseq, amplicon data)</li>
-    <li>Index the BAM file</li>
-    <li>Estimate mapping statistics: sequencing depth, % mapping, coverage</li>
-  </ul>
-</details>
-
+ 
 <details>
-  <summary>Task 2: VCF to PLINK Format Conversion</summary>
+  <summary>Task 1: VCF to PLINK Format Conversion</summary>
   <ul>
     <li>Convert VCF to PLINK binary format using <code>plink --make-bed</code></li>
     <li>Edit <code>.fam</code> file to add region information to second column</li>
@@ -61,7 +51,7 @@
 </details>
 
 <details>
-  <summary>Task 3: Principal Component Analysis (PCA)</summary>
+  <summary>Task 2: Principal Component Analysis (PCA)</summary>
   <ul>
     <li>Run PCA with <code>plink --pca 5</code></li>
     <li>Visualize in R with <code>ggplot2</code></li>
@@ -70,7 +60,7 @@
 </details>
 
 <details>
-  <summary>Task 4: File Transfer</summary>
+  <summary>Task 3: File Transfer</summary>
   <ul>
     <li>Use <code>scp</code> to copy output files from server to local machine</li>
     <li>Example: <code>scp user@IP:path/to/Rplots.pdf .</code></li>
@@ -78,7 +68,7 @@
 </details>
 
 <details>
-  <summary>Task 5: ADMIXTURE Analysis</summary>
+  <summary>Task 4: ADMIXTURE Analysis</summary>
   <ul>
     <li>Create conda environment and install ADMIXTURE</li>
     <li>Run ADMIXTURE for K = 2 to 4 using loop</li>
@@ -87,7 +77,7 @@
 </details>
 
 <details>
-  <summary>Task 6: ADMIXTURE Plotting</summary>
+  <summary>Task 5: ADMIXTURE Plotting</summary>
   <ul>
     <li>Read <code>.Q</code> and <code>.fam</code> files into R</li>
     <li>Extract group/population from sample IDs</li>
@@ -97,7 +87,7 @@
 </details>
 
 <details>
-  <summary>Task 7: Heterozygosity Estimation</summary>
+  <summary>Task 6: Heterozygosity Estimation</summary>
   <ul>
     <li>Install <code>rtg-tools</code> using conda</li>
     <li>Run <code>rtg vcfstats</code> on final VCF</li>
@@ -106,7 +96,7 @@
 </details>
 
 <details>
-  <summary>Task 8: Optional / Miscellaneous Tasks</summary>
+  <summary>Task 7: Optional / Miscellaneous Tasks</summary>
   <ul>
     <li>Activate/deactivate conda environments as needed</li>
     <li>Exit server after analysis with <code>exit</code> command</li>
