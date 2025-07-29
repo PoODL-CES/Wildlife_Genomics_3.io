@@ -30,7 +30,7 @@
   <pre><code>conda create -n bwa -c bioconda bwa
 conda activate bwa</code></pre>
 
-  <p><strong>Align Reads</strong></p>
+  <p><strong>Map Reads</strong></p>
   <pre><code>bwa mem GCF_018350215.1_P.leo_Ple1_pat1.1_genomic.fna Benin_1_subset_val_1.fastq.gz Benin_2_subset_val_2.fastq.gz > Benin_aligned_reads.sam</code></pre>
 
   <p><strong>Loop for All Samples</strong></p>
@@ -63,6 +63,12 @@ done</code></pre>
   <p><strong>Install and Activate GATK4</strong></p>
   <pre><code>conda create -n gatk4 -c bioconda gatk4
 conda activate gatk4</code></pre>
+  <pre><strong>Add readgroup</strong></pre>
+  for file in *_sorted.bam
+  do
+  gatk AddOrReplaceReadGroups I=${file} O=${file/_sorted.bam/_sorted_RG.bam} RGID=${file/_sorted.bam/} RGPL=ILLUMINA RGPU=${file/_sorted.bam/} RGSM=${file/_sorted.bam/} RGLB=${file/_sorted.bam/}
+  done
+  
 
   <p><strong>Mark Duplicates</strong></p>
   <pre><code>gatk MarkDuplicates -I Benin_sorted_reads.bam -O Benin_deduplicated.bam -M Benin_duplication_metrics.txt --REMOVE_DUPLICATES true</code></pre>
