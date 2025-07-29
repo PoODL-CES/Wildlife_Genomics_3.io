@@ -44,13 +44,6 @@ plink --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6_mid95per
   --allow-extra-chr \
   --out variants</code></pre>
 
-    <h3>(Optional) Edit .fam file if needed</h3>
-    <pre><code># For simple manual editing, use a text editor or:
-cp variants.fam input.fam</code></pre>
-
-    <h3>Fix chromosome names in .bim</h3>
-    <pre><code>awk '{$1 = 1; print}' variants.bim > tmp && mv tmp variants.bim</code></pre>
-
     <h3>Run PCA</h3>
     <pre><code>plink --bfile variants --pca 5 --allow-extra-chr --out variants_pca
 conda deactivate</code></pre>
