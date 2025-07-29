@@ -69,7 +69,14 @@ done</code></pre>
   <pre><code> 
   for file in *_sorted.bam
   do
-  gatk AddOrReplaceReadGroups I=${file} O=${file/_sorted.bam/_sorted_RG.bam} RGID=${file/_sorted.bam/} RGPL=ILLUMINA RGPU=${file/_sorted.bam/} RGSM=${file/_sorted.bam/} RGLB=${file/_sorted.bam/}
+  gatk AddOrReplaceReadGroups \
+    I=${file} \
+    O=${file/_sorted.bam/_sorted_RG.bam} \
+    RGID=${file/_sorted.bam/} \
+    RGPL=ILLUMINA \
+    RGPU=${file/_sorted.bam/} \
+    RGSM=${file/_sorted.bam/} \
+    RGLB=${file/_sorted.bam/}
   done
   </code></pre>
   
