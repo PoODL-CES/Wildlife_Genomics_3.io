@@ -61,13 +61,17 @@ done</code></pre>
 
   <h2>Task 3: Mark Duplicates Using GATK4</h2>
   <p><strong>Install and Activate GATK4</strong></p>
-  <pre><code>conda create -n gatk4 -c bioconda gatk4
-conda activate gatk4</code></pre>
-  <pre><strong>Add readgroup</strong></pre>
+  <pre><code>
+  conda create -n gatk4 -c bioconda gatk4
+  conda activate gatk4
+  </code></pre>
+  <p><strong>Add readgroup</strong></p>
+  <pre><code> 
   for file in *_sorted.bam
   do
   gatk AddOrReplaceReadGroups I=${file} O=${file/_sorted.bam/_sorted_RG.bam} RGID=${file/_sorted.bam/} RGPL=ILLUMINA RGPU=${file/_sorted.bam/} RGSM=${file/_sorted.bam/} RGLB=${file/_sorted.bam/}
   done
+  </code></pre>
   
 
   <p><strong>Mark Duplicates</strong></p>
