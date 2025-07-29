@@ -49,11 +49,11 @@ done</code></pre>
 conda activate samtools</code></pre>
 
   <p><strong>Convert and Sort</strong></p>
-  <pre><code>samtools view -S -b Benin_aligned_reads.sam | samtools sort -o Benin_sorted_reads.bam</code></pre>
+  <pre><code>samtools sort SRR10764405.sam -o SRR10764405_sorted.bam</code></pre>
 
   <p><strong>Batch Conversion</strong></p>
   <pre><code>for file in *.sam; do 
-  samtools view -S -b "$file" | samtools sort -o "${file%.sam}_sorted.bam"
+  samtools sort "$file" -o "${file%.sam}_sorted.bam"
 done</code></pre>
 
   <p><strong>Deactivate Samtools Environment</strong></p>
