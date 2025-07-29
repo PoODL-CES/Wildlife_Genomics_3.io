@@ -38,49 +38,37 @@
     <h2>1. PCA: Principal Component Analysis</h2>
     <h3>Convert VCF to PLINK Binary Format</h3>
     <pre><code>conda activate plink
-plink --vcf machali_...vcf \
+plink --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6_mid95percentile.vcf \
   --make-bed \
   --double-id \
   --allow-extra-chr \
-  --out machali_...</code></pre>
+  --out variants</code></pre>
 
-    <h3>Edit .fam file to add region info</h3>
-    <pre><code>awk '{
-  id = $1
-  if (id ~ /_CI/)       region = "CenIndia"
-  else if (id ~ /_SI/)  region = "SouIndia"
-  else if (id ~ /_NE/)  region = "NorEasIndia"
-  else if (id ~ /_NW/)  region = "NorWesIndia"
-  else if (id ~ /_NOR/) region = "NorIndia"
-  else if (id ~ /_SU/)  region = "Sunderban"
-  else if (id ~ /^LGS/) region = "CenIndia"
-  else                  region = "Unknown"
-  $2 = region
-  print
-}' input.fam > tmp.fam && mv tmp.fam input.fam</code></pre>
+    <h3>(Optional) Edit .fam file if needed</h3>
+    <pre><code># For simple manual editing, use a text editor or:
+cp variants.fam input.fam</code></pre>
 
     <h3>Fix chromosome names in .bim</h3>
-    <pre><code>awk '{$1 = 1; print}' input.bim > tmp && mv tmp input.bim</code></pre>
+    <pre><code>awk '{$1 = 1; print}' variants.bim > tmp && mv tmp variants.bim</code></pre>
 
     <h3>Run PCA</h3>
-    <pre><code>plink --bfile input --pca 5 --allow-extra-chr --out input_pca
+    <pre><code>plink --bfile variants --pca 5 --allow-extra-chr --out variants_pca
 conda deactivate</code></pre>
 
     <h3>Plot PCA in R</h3>
     <pre><code>conda activate R_env
 R
-fam <- read.table("input.fam")
-eigenvec <- read.table("input_pca.eigenvec")
+fam <- read.table("variants.fam")
+eigenvec <- read.table("variants_pca.eigenvec")
 colnames(eigenvec) <- c("FID", "IID", paste0("PC", 1:5))
-colnames(fam)[2] <- "Region"
-eigenvec$Region <- fam$V2
+eigenvec$Region <- fam$V2  # assuming placeholder labels
 library(ggplot2)
 ggplot(eigenvec, aes(x = PC1, y = PC2, color = Region)) +
   geom_point(size = 3, alpha = 0.8) +
   theme_minimal() +
-  labs(title = "PCA Plot by Region", x = "PC1", y = "PC2")
-ggsave("pca_by_region.png")
-ggsave("pca_by_region.pdf")
+  labs(title = "PCA Plot", x = "PC1", y = "PC2")
+ggsave("pca_plot.png")
+ggsave("pca_plot.pdf")
 q()</code></pre>
   </div>
 
@@ -91,7 +79,7 @@ conda activate admixture
 
 for K in {2..4}
 do 
-  admixture input.bed $K
+  admixture variants.bed $K
 done</code></pre>
 
     <h3>Plot Admixture Results in R</h3>
@@ -100,10 +88,10 @@ R
 library(ggplot2)
 library(reshape2)
 library(dplyr)
-q3 <- read.table("input.3.Q")
-fam <- read.table("input.fam")
+q3 <- read.table("variants.3.Q")
+fam <- read.table("variants.fam")
 q3$ID <- fam$V1
-q3$Group <- gsub(".*_(.*)", "\\1", q3$ID)
+q3$Group <- "Sample"
 q3_long <- melt(q3, id.vars = c("ID", "Group"))
 q3_long <- q3_long %>%
   arrange(Group, ID) %>%
@@ -119,7 +107,7 @@ p <- ggplot(q3_long, aes(x = ID, y = value, fill = variable)) +
         strip.text.x = element_text(angle = 0, face = "bold"),
         legend.position = "right") +
   scale_fill_brewer(palette = "Set1")
-ggsave("admixture_K3_grouped.png", p, width = 12, height = 6, dpi = 300)
+ggsave("admixture_K3.png", p, width = 12, height = 6, dpi = 300)
 q()</code></pre>
   </div>
 
@@ -127,7 +115,7 @@ q()</code></pre>
     <h2>3. Heterozygosity Estimation</h2>
     <pre><code>conda create -n rtg-tools -c bioconda rtg-tools
 conda activate rtg-tools
-rtg vcfstats input.vcf > input.vcfstats
+rtg vcfstats variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6_mid95percentile.vcf > variants.vcfstats
 conda deactivate</code></pre>
   </div>
 
