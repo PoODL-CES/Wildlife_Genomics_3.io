@@ -36,37 +36,41 @@
   <p>Apply quality-based filters to retain high-confidence variants. Remove all variants with Q<30, GQ<30, remove all Indels and retain only the variants that are flagged as "PASS". </p>
 
   <h3>2. Remove non-neutral loci</h3>
-  <p>Then remove any variant that deviates from HWE with a chi-square P value of less than 0.01.</p>
+  <p>Remove any variant that deviates from HWE with a chi-square P value of less than 0.01.</p>
 
-  <h3>3. Apply Individual Missingness Filter</h3>
+  <h3>3. Remove alleles that appear less than 3 times</h3>
+  <p>Extremely rare allele can sometimes be an artefact of sequencing. For example, an alelle that appears in the dataset 1 or 2 times can be because 1 individual in the dataset had a sequencing error. However, if an allele appears twice we are confident, it is represented in at least 2 individuals in the dataset.</p>
+
+    
+  <h3>4. Apply Individual Missingness Filter</h3>
   <p>Remove individuals with more than 60% missing data:</p>
-  
-
-  <h3>4. Apply Site Missingness Filter</h3>
-  <p>Filter out variants that are not commonly genotyped across individuals.</p>
 
 
-  <h3>5. Record Variant Counts for Different Missingness Thresholds</h3>
+  <h3>5. Record Variant Counts for Different site missingness Thresholds</h3>
   <p>Extract and save the number of variants remaining at each threshold (0.1 to 0.9):</p>
+
+
+  <h3>6. Apply Site Missingness Filter</h3>
+  <p>Filter out variants that are not commonly genotyped across individuals.</p>
   
 
-  <h3>6. Plot <code>variant_counts.txt</code> Using ggplot2 in R</h3>
+  <h3>7. Plot <code>variant_counts.txt</code> Using ggplot2 in R</h3>
 
-  <h3>7. Apply Final Missingness Filter (Max Missing = 0.6)</h3>
+  <h3>8. Apply Final Missingness Filter (Max Missing = 0.6)</h3>
   <p>This retains variants that are present in at least 60% of individuals.</p>
   
 
-  <h3>8. Use Site Mean Depth Filter</h3>
+  <h3>9. Use Site Mean Depth Filter</h3>
   <p>Calculate mean depth per variant:</p>
 
 
-  <h3>9. Extract Depth Values Between 5th and 97.5th Percentiles</h3>
+  <h3>10. Extract Depth Values Between 5th and 97.5th Percentiles</h3>
   <p>Use R or Python to compute the 0.05 and 0.975 quantiles and filter sites accordingly.</p>
 
-  <h3>10. Apply Depth Filters to Retain Only Mid 95% Variants</h3>
+  <h3>11. Apply Depth Filters to Retain Only Mid 95% Variants</h3>
 
 
-  <h3>11. Perform PCA</h3>
+  <h3>12. Perform PCA</h3>
   <p>Convert to PLINK format and run PCA:</p>
  
 </body>
