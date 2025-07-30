@@ -43,7 +43,7 @@
 
     
   <h3>4. Apply Individual Missingness Filter</h3>
-  <p>Remove individuals with more than 60% missing data:</p>
+  <p>Remove individuals with more than 98% missing data:</p>
 
 
   <h3>5. Record Variant Counts for Different site missingness Thresholds</h3>
@@ -56,16 +56,15 @@
 
   <h3>7. Plot <code>variant_counts.txt</code> Using ggplot2 in R</h3>
 
-  <h3>8. Apply Final Missingness Filter (Max Missing = 0.6)</h3>
-  <p>This retains variants that are present in at least 60% of individuals.</p>
+  <h3>8. Apply Final Missingness Filter (Max Missing = 0.5)</h3>
+  <p>This retains variants that are present in at least 50% of individuals.</p>
   
-
-  <h3>9. Use Site Mean Depth Filter</h3>
+  <h3>9. Extract Depth Values Between 2.5th and 97.5th Percentiles</h3>
+  <p>Use R or Python to compute the 0.025 and 0.975 quantiles and filter sites accordingly.</p>
+    
+  <h3>10. Use Site Mean Depth Filter</h3>
   <p>Calculate mean depth per variant:</p>
 
-
-  <h3>10. Extract Depth Values Between 5th and 97.5th Percentiles</h3>
-  <p>Use R or Python to compute the 0.05 and 0.975 quantiles and filter sites accordingly.</p>
 
   <h3>11. Apply Depth Filters to Retain Only Mid 95% Variants</h3>
 
