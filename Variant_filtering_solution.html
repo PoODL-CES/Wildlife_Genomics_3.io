@@ -29,75 +29,82 @@
   <h2>Variant Filtering</h2>
 
   <h3>Download VCF</h3>
-  <p>Download the VCF file from: <a href="https://tinyurl.com/ZenodoPopGen2025PUv2" target="_blank">Zenodo Record 15173226</a></p>
+<p>Download the VCF file from: <a href="https://doi.org/10.5281/zenodo.16312747" target="_blank">Zenodo Record 15173226</a></p>
 
-  <h3>Tool: VCFtools</h3>
-  <p>Install vcftools in a new conda environment:</p>
-  <pre><code>conda create -n vcftools -c bioconda vcftools
+<h3>Tool: VCFtools</h3>
+<p>Install vcftools in a new conda environment:</p>
+<pre><code>conda create -n vcftools -c bioconda vcftools
 conda activate vcftools</code></pre>
 
-  <h4>Input file:</h4>
-  <p><code>variants_renmaed.vcf.gz</code></p>
+<h4>Input file:</h4>
+<p><code>variants_renamed.vcf.gz</code></p>
 
-  <h3>Apply Filters</h3>
+<h3>Apply Filters</h3>
 
-  <h4>Base Quality, Genotype Quality, HWE:</h4>
-  <pre><code>vcftools --gzvcf variants_renamed.vcf.gz \
---minQ 30 --minGQ 30 --hwe 0.05 \
+<h4>1. Base Quality and Genotype Quality Filters:</h4>
+<pre><code>vcftools --gzvcf variants_renamed.vcf.gz \
+--minQ 30 --minGQ 30 \
+--out variants_renamed_minQ30_minGQ30 --recode</code></pre>
+
+<ul>
+  <li><code>--minQ</code>: Minimum base quality</li>
+  <li><code>--minGQ</code>: Minimum genotype quality</li>
+</ul>
+
+<h4>2. Hardy-Weinberg Equilibrium (HWE) Filter:</h4>
+<pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30.recode.vcf \
+--hwe 0.05 \
 --out variants_renamed_minQ30_minGQ30_hwe_0.05 --recode</code></pre>
 
-  <ul>
-    <li><code>--minQ</code>: Minimum base quality</li>
-    <li><code>--minGQ</code>: Minimum genotype quality</li>
-    <li><code>--hwe</code>: Hardy-Weinberg Equilibrium filter</li>
-  </ul>
+<ul>
+  <li><code>--hwe</code>: Remove loci deviating from Hardy-Weinberg Equilibrium (p &lt; 0.05)</li>
+</ul>
 
-  <h4>Remove Indels:</h4>
-  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05.recode.vcf --remove-indels \
+<h4>3. Remove INDELs and Individuals with >60% Missing Data:</h4>
+<pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05.recode.vcf \
+--remove-indels --missing-indv \
 --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels --recode</code></pre>
 
-  <h4>Individual Missingness:</h4>
-  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels.recode.vcf --missing-indv</code></pre>
-  <p>This generates <code>out.imiss</code>. To remove individuals with >60% missing data:</p>
-  <pre><code>vcftools --vcf  --remove &lt;(awk '$5 &gt; 0.6 {print $1}' out.imiss) \
+<p>This generates <code>out.imiss</code>. To remove individuals with >60% missing data:</p>
+<pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels.recode.vcf \
+--remove &lt;(awk '$5 &gt; 0.6 {print $1}' out.imiss) \
 --recode --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6</code></pre>
 
-  <h4>Apply Missingness Filter by Proportion (0.1–0.9):</h4>
-  <pre><code>for miss in {10..90..10}; do
+<h4>4. Apply Missingness Filter by Proportion (0.1–0.9):</h4>
+<pre><code>for miss in {10..90..10}; do
   perc=$(echo "scale=2; $miss / 100" | bc)
   vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6.recode.vcf \
   --max-missing $perc \
   --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss_${miss} --recode
 done</code></pre>
 
-  <h4>Count Variants for Each Filter:</h4>
-  <pre><code>for miss in {10..90..10}; do
+<h4>5. Count Variants for Each Filter:</h4>
+<pre><code>for miss in {10..90..10}; do
   count=$(grep -vc "^#" variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_imiss_0.6_miss_${miss}.recode.vcf)
   echo "${miss} ${count}" >> variant_counts.txt
 done</code></pre>
 
-  <h3>Plot Variant Counts using ggplot2</h3>
+<h3>Plot Variant Counts using ggplot2</h3>
 
-  <h4>Install:</h4>
-  <pre><code>conda create -n ggplot2 -c conda-forge r-ggplot2
+<h4>Install:</h4>
+<pre><code>conda create -n ggplot2 -c conda-forge r-ggplot2
 conda activate ggplot2</code></pre>
 
-  <h4>Plotting command:</h4>
-  <pre><code>R -e "library(ggplot2); library(scales); \
+<h4>Plotting command:</h4>
+<pre><code>R -e "library(ggplot2); library(scales); \
 data <- read.table('variant_counts.txt', header=FALSE, col.names=c('Missingness', 'Variants')); \
 p <- ggplot(data, aes(x=Missingness, y=Variants)) + geom_line(color='blue') + geom_point(color='red') + \
 ggtitle('Number of Passed Variants vs. Missingness Filter') + xlab('Max Missingness (%)') + ylab('Number of Variants') + \
 scale_y_continuous(labels = comma) + scale_x_continuous(limits = c(10, 90)) + theme_minimal(); \
 ggsave('variant_plot.png', plot=p)"</code></pre>
 
+<h3>Apply Mean Depth Filter</h3>
 
-  <h3>Apply Mean Depth Filter</h3>
+<h4>Calculate Depth:</h4>
+<pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf --site-mean-depth --out depth</code></pre>
 
-  <h4>Calculate Depth:</h4>
-  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf --site-mean-depth --out depth</code></pre>
-
-  <h4>Get 95% Depth Range in R:</h4>
-  <pre><code>conda create -n R_env -c conda-forge r-base
+<h4>Get 95% Depth Range in R:</h4>
+<pre><code>conda create -n R_env -c conda-forge r-base
 conda activate R_env
 
 R
@@ -107,10 +114,10 @@ lower_bound <- quantile(depths, 0.025, na.rm = TRUE)
 upper_bound <- quantile(depths, 0.975, na.rm = TRUE)
 cat("Middle 95% range:", lower_bound, "to", upper_bound, "\n")</code></pre>
 
-  <p>Example Output: <code>Middle 95% range: 12.8302 to 24.6604</code></p>
+<p>Example Output: <code>Middle 95% range: 12.8302 to 24.6604</code></p>
 
-  <h4>Apply Depth Filter:</h4>
-  <pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf \
+<h4>Apply Depth Filter:</h4>
+<pre><code>vcftools --vcf variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6.recode.vcf \
 --min-meanDP 12.8302 --max-meanDP 24.6604 --recode \
 --out variants_renamed_minQ30_minGQ30_hwe_0.05_rmvIndels_miss_0.6_mid95percentile</code></pre>
 
