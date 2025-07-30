@@ -32,11 +32,11 @@
     
   <p>Variants file can also be downloaded from <a href=https://tinyurl.com/Popgen2025PUZenodo> here </a> </p>
   
-  <h3>1. Apply Base Quality, Genotype Quality, INDELS, "PASS" and Hardy-Weinberg Equilibrium (HWE) Filters</h3>
-  <p>Apply quality-based filters to retain high-confidence variants. Remove all variants with Q<30, GQ<30, remove all Indels and retain only the variants that are flagged as "PASS". Then remove any variant that deviates from HWE with a chi-square P value of less than 0.01</p>
+  <h3>1. Apply Base Quality, Genotype Quality, INDELS, "PASS" filters</h3>
+  <p>Apply quality-based filters to retain high-confidence variants. Remove all variants with Q<30, GQ<30, remove all Indels and retain only the variants that are flagged as "PASS". </p>
 
-  <h3>2. Remove Indels</h3>
-  <p>Retain only SNPs (single nucleotide polymorphisms) by removing insertions and deletions.</p>
+  <h3>2. Remove non-neutral loci</h3>
+  <p>Then remove any variant that deviates from HWE with a chi-square P value of less than 0.01.</p>
 
   <h3>3. Apply Individual Missingness Filter</h3>
   <p>Remove individuals with more than 60% missing data:</p>
