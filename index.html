@@ -315,6 +315,59 @@ Click the image below to watch a clear and concise explanation of PCA — a key 
   </div>
     </ul>
 
+    <!-- Metagenomics Workshop Section -->
+<section id="metagenomics" class="py-8">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-4">Metagenomics Workshop Pipeline Breakdown</h2>
+
+    <p class="mb-6 italic">
+      Lecture: <strong>Shades &amp; Hues of Metagenomics</strong> – Principles, Applications, and Opportunities. Tools and Pipelines for Metagenomics.
+    </p>
+
+    <!-- Amplicon Metagenomics -->
+    <h3 class="text-2xl font-semibold mt-6 mb-2">A) Amplicon Metagenomics</h3>
+
+    <h4 class="text-xl font-medium mt-4 mb-2">Discussion</h4>
+    <ul class="list-disc pl-6 mb-4">
+      <li>What is a species?</li>
+      <li>Taxonomy delimitation approaches: clustering vs denoising</li>
+      <li>OTU: de novo, reference-based, open and closed vs ASV</li>
+    </ul>
+
+    <h4 class="text-xl font-medium mt-4 mb-2">Hands-on: DADA2</h4>
+    <ul class="list-disc pl-6 mb-4">
+      <li>Install R and R Studio</li>
+      <li>Complete DADA2 tutorial: <a href="https://benjjneb.github.io/dada2/tutorial.html" class="text-blue-600 underline">link</a></li>
+      <li>Adapt DADA2 pipeline to dataset: <a href="https://etherpad.mit.edu/p/metagenomics" class="text-blue-600 underline">link</a></li>
+    </ul>
+
+    <h4 class="text-xl font-medium mt-4 mb-2">Discussion</h4>
+    <p class="mb-4">
+      Diversity measurements: rarefaction, alpha vs beta diversity. Which aspects of diversity can we measure with amplicon metagenomics data?
+    </p>
+
+    <h4 class="text-xl font-medium mt-4 mb-2">Hands-On: Phyloseq</h4>
+    <ul class="list-disc pl-6 mb-4">
+      <li>Rarefaction curves</li>
+      <li>Alpha metrics: Observed, Chao1, Shannon, Simpson</li>
+      <li>Stacked bar charts</li>
+      <li>Beta diversity: nMDS, PCoA, PCA</li>
+    </ul>
+
+    <!-- Shotgun Metagenomics -->
+    <h3 class="text-2xl font-semibold mt-8 mb-2">B) Shotgun Metagenomics Workflow (Microbiome Study)</h3>
+    <ol class="list-decimal pl-6 mb-4 space-y-2">
+      <li><strong>Demultiplexing:</strong> Handled by sequencing platforms, samples identified by barcodes.</li>
+      <li><strong>Quality Control:</strong> Remove low-quality reads using tools like <code>FastQC</code>.</li>
+      <li><strong>Host DNA Removal:</strong> Filter host reads via mapping to reference genome (e.g., <code>bwa</code>, <code>bowtie</code>).</li>
+      <li><strong>Taxonomy Assignment:</strong> Use tools like <code>MetaPhlAn</code>. Reads map to clade-specific markers to answer: “Who is in the sample?”</li>
+      <li><strong>Computing Taxa Abundance:</strong> Estimate abundance from clade-specific marker mapping.</li>
+      <li><strong>Visualizing Taxonomic Profiles:</strong> Use MetaPhlAn utilities (<code>merge_metaphlan_tables</code>, <code>hclust2</code>).</li>
+      <li><strong>Functional Annotation:</strong> Tools like <code>HUMAnN</code>, <code>eggNOG-mapper</code> assign functions by aligning reads to ortholog groups, answering: “What do the microorganisms do?”</li>
+    </ol>
+  </div>
+</section>
+
 
  <section>
   <h2> Our Workshop Sponsors </h2>
